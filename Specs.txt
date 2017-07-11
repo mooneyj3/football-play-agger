@@ -7,3 +7,871 @@ Output:  Data will be stored in CSV documents by year
 Data Source:  nfl.com/gamecenter
     This will be gathered from the Analyze/Play-by-Play tab
 
+External Library:
+    Beautiful Soup from crummy
+    https://www.crummy.com/software/BeautifulSoup/bs4/download/4.0/
+
+Utilizing beautiful soup, we'll be extracting HTML content.
+URL building will be an important aspect of this project as we download and aggregate data.
+
+/********************************/
+/* URLs and HTML for Beat Soup  */
+/********************************/
+
+-------------------------
+<> game level          <>
+-------------------------
+This needs to be used to obtain "game-id" links
+
+http://www.nfl.com/scores/2016/REG1
+http://www.nfl.com/scores/2016/PRE1
+http://www.nfl.com/scores/2016/POST18
+
+These pages will list the final scores for each game.
+
+Format:  http://www.nfl.com/scores/{int year}/{string season}{int week}
+
+Within this page, I'll need to collect the gamecenter link. As of July 2017, we see a gamecenter button where the gamecenter link is stored in an anchor.
+From this we'll grab the href that has the form "/gamecenter/{int gameid}/{year}/{string season}{int week}/{string home}@{string away}
+
+ex.:  http://www.nfl.com/scores/2016/REG17
+<a href="/gamecenter/2017010101/2016/REG17/ravens@bengals"
+    class="game-center-link"
+    onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2017010101/2016/REG17/ravens@bengals_1&quot;;return this.s_oc?this.s_oc(e):true"
+    id="yui_3_10_3_2_1499788245547_1938">
+<img src="http://i.nflcdn.com/static/site/7.5/img/scores/game-center-active.png" alt=""></a>
+
+It's probably best to store this info, as it will be iterated over.
+It will be used to build subsequent links to actually grab the play-by-play data.
+
+example:
+ http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#tab=analyze&analyze=playbyplay
+
+specific data in the url may be valuable as well as we store special columns to our CSV.
+
+
+-------------------------
+<> play-by-play level  <>
+-------------------------
+A little complicated but do-able. String parsing might be needed time to time.
+Fortunately, there are list items that are organized by class.
+
+/* describes the quarter */
+<li class="pbp-qtr">1st Quarter</li>
+
+/* describes the play that is occurring, note, last span is a "Watch Highlight" */
+<li><span class="pbp-dd-info">1-10-DEN 36</span>
+    <span class="pbp-dd-text">(14:17) 13-T.Siemian pass incomplete short right to 22-C.Anderson [20-K.Coleman].</span>
+    <span class="pbp-dd-text"><a href="#contentId=0ap3000000703609" data-id="0ap3000000703609" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000703609_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+</li>
+
+/*  */
+
+
+/* example of an entire quarter
+ * notice the start of quarter, end of quarter, and ball turnover
+ */
+
+<ol class="pbp-list-qtr" id="yui_3_10_3_7_1499789091011_437">
+    <!--START of continues content if there is more play in the quarter-->
+    <!--END of continues content if there is more play in the quarter-->
+    <!--START of Drive in the the specific quarter-->
+
+    <li class="DENfont pbp-team" id="yui_3_10_3_7_1499789091011_453">Denver Broncos at 15:00</li>
+
+    <!--START of play content in the quarter-->
+
+    <li><span class="pbp-dd-full-info">9-G.Gano kicks 65 yards from CAR 35 to end zone, Touchback.</span></li>
+    <li id="yui_3_10_3_7_1499789091011_436">
+    <span class="pbp-dd-info">1-10-DEN 25</span>
+    <span class="pbp-dd-text" id="yui_3_10_3_7_1499789091011_439">(15:00) 13-T.Siemian pass short left to 88-D.Thomas to DEN 36 for 11 yards (59-L.Kuechly).</span>
+    <span class="pbp-dd-text"><a href="#contentId=0ap3000000697174" data-id="0ap3000000697174" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697174_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span></li>
+
+    <li id="yui_3_10_3_7_1499789091011_456">
+        <span class="pbp-dd-info">1-10-DEN 36</span>
+        <span class="pbp-dd-text" id="yui_3_10_3_7_1499789091011_455">(14:17) 13-T.Siemian pass incomplete short right to 22-C.Anderson [20-K.Coleman].</span>
+        <span class="pbp-dd-text"><a href="#contentId=0ap3000000703609" data-id="0ap3000000703609" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000703609_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+    </li>
+
+    <li>
+        <span class="pbp-dd-info">2-10-DEN 36</span>
+        <span class="pbp-dd-text">(14:13) 13-T.Siemian pass incomplete short right to 10-E.Sanders.</span>
+    </li>
+
+    <li>
+        <span class="pbp-dd-info">
+            3-10-DEN
+            36
+        </span>
+
+
+
+            <span class="pbp-dd-text">(14:08) (Shotgun) 13-T.Siemian pass short left to 85-V.Green ran ob at DEN 48 for 12 yards.</span>
+
+        <span class="pbp-dd-text"><a href="#contentId=0ap3000000697180" data-id="0ap3000000697180" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697180_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+    </li>
+
+    <li>
+        <span class="pbp-dd-info">
+            1-10-DEN
+            48
+        </span>
+
+
+
+            <span class="pbp-dd-text">(13:42) 13-T.Siemian pass short right to 10-E.Sanders to CAR 47 for 5 yards (27-R.McClain).</span>
+    </li>
+
+    <li>
+        <span class="pbp-dd-info">
+            2-5-CAR
+            47
+        </span>
+
+
+
+            <span class="pbp-dd-text">(13:01) 22-C.Anderson up the middle to CAR 34 for 13 yards (24-J.Bradberry).</span>
+
+
+    </li>
+
+    <li>
+        <span class="pbp-dd-info">
+            1-10-CAR
+            34
+        </span>
+
+
+
+            <span class="pbp-dd-text">(12:23) 22-C.Anderson right guard to CAR 29 for 5 yards (27-R.McClain).</span>
+
+
+    </li>
+
+    <li>
+        <span class="pbp-dd-info">
+            2-5-CAR
+            29
+        </span>
+
+
+
+            <span class="pbp-dd-text">(11:47) 23-D.Booker right guard to CAR 29 for no gain (95-C.Johnson). FUMBLES (95-C.Johnson), RECOVERED by CAR-54-S.Thompson at CAR 29. 54-S.Thompson to CAR 29 for no gain (23-D.Booker).</span>
+
+        <span class="pbp-dd-text"><a href="#contentId=0ap3000000697181" data-id="0ap3000000697181" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697181_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+    </li>
+
+
+
+
+
+					<!--END of play content in the quarter-->
+
+
+
+
+
+					<li class="CARfont pbp-team" id="yui_3_10_3_7_1499789091011_452">
+						Carolina Panthers at
+						11:37
+					</li>
+
+					<!--START of play content in the quarter-->
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-CAR
+												29
+											</span>
+
+
+
+												<span class="pbp-dd-text">(11:37) 28-J.Stewart up the middle to CAR 35 for 6 yards (54-B.Marshall).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-4-CAR
+												35
+											</span>
+
+
+
+												<span class="pbp-dd-text">(11:01) (Shotgun) 28-J.Stewart left end to CAR 46 for 11 yards (51-T.Davis).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li id="yui_3_10_3_7_1499789091011_445">
+											<span class="pbp-dd-info">
+												1-10-CAR
+												46
+											</span>
+
+
+
+												<span class="pbp-dd-text" id="yui_3_10_3_7_1499789091011_444">(10:21) (Shotgun) 35-M.Tolbert right guard to CAR 47 for 1 yard (94-D.Ware).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li id="yui_3_10_3_7_1499789091011_448">
+											<span class="pbp-dd-info">
+												2-9-CAR
+												47
+											</span>
+
+
+
+												<span class="pbp-dd-text" id="yui_3_10_3_7_1499789091011_447">(9:39) (Shotgun) 1-C.Newton pass incomplete short middle to 88-G.Olsen (43-T.Ward).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+										<li>
+
+
+
+												<span class="pbp-dd-full-info">Timeout #1 by CAR at 09:35.</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												3-9-CAR
+												47
+											</span>
+
+
+
+												<span class="pbp-dd-text">(9:35) (Shotgun) 1-C.Newton pass deep middle to 13-K.Benjamin to DEN 36 for 17 yards (31-J.Simmons).</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697186" data-id="0ap3000000697186" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697186_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-DEN
+												36
+											</span>
+
+
+
+												<span class="pbp-dd-text">(8:55) (Shotgun) 19-T.Ginn left end to DEN 16 for 20 yards (26-D.Stewart).</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697194" data-id="0ap3000000697194" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697194_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-DEN
+												16
+											</span>
+
+
+
+												<span class="pbp-dd-text">(8:07) 28-J.Stewart up the middle to DEN 14 for 2 yards (56-S.Ray).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+										<li>
+
+
+
+												<span class="pbp-dd-full-info">Timeout #2 by CAR at 07:20.</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-8-DEN
+												14
+											</span>
+
+												<span class="pbp-dd-text scoring-play">(7:20) (Shotgun) 1-C.Newton pass short right to 13-K.Benjamin for 14 yards, TOUCHDOWN. PENALTY on CAR-70-T.Turner, Taunting, 15 yards, enforced between downs. Penalty to be assessed on the kickoff.</span>
+
+
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697188" data-id="0ap3000000697188" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697188_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+										<li>
+
+												<span class="pbp-dd-full-info scoring-play">9-G.Gano extra point is GOOD, Center-44-J.Jansen, Holder-8-A.Lee.</span>
+
+
+
+
+										</li>
+
+
+
+
+
+
+					<!--END of play content in the quarter-->
+
+						<li>
+							CAR
+							7
+							&nbsp;&nbsp;&nbsp;DEN
+							0 &nbsp;&nbsp;&nbsp;Plays:
+							8 &nbsp;&nbsp;&nbsp;Possession:
+							4:24
+						</li>
+
+
+
+
+
+					<li class="DENfont pbp-team" id="yui_3_10_3_7_1499789091011_449">
+						Denver Broncos at
+						07:13
+					</li>
+
+					<!--START of play content in the quarter-->
+
+
+
+
+
+
+										<li>
+
+
+
+												<span class="pbp-dd-full-info">9-G.Gano kicks 80 yards from CAR 20 to end zone, Touchback.</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-DEN
+												25
+											</span>
+
+
+
+												<span class="pbp-dd-text">(7:13) 13-T.Siemian pass short right to 10-E.Sanders ran ob at DEN 39 for 14 yards.</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697199" data-id="0ap3000000697199" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697199_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-DEN
+												39
+											</span>
+
+
+
+												<span class="pbp-dd-text">(6:48) (Shotgun) 22-C.Anderson up the middle to DEN 42 for 3 yards (99-K.Short).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-7-DEN
+												42
+											</span>
+
+
+
+												<span class="pbp-dd-text">(6:19) 13-T.Siemian pass short right to 88-D.Thomas to 50 for 8 yards (24-J.Bradberry).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-
+
+											</span>
+
+
+
+												<span class="pbp-dd-text">(5:38) 22-C.Anderson right guard to DEN 49 for -1 yards (59-L.Kuechly).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-11-DEN
+												49
+											</span>
+
+
+
+												<span class="pbp-dd-text">(4:58) (Shotgun) 13-T.Siemian pass short right to 22-C.Anderson to CAR 30 for 21 yards (58-T.Davis).</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697204" data-id="0ap3000000697204" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697204_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-CAR
+												30
+											</span>
+
+
+
+												<span class="pbp-dd-text">(4:20) 23-D.Booker right guard to CAR 24 for 6 yards (24-J.Bradberry; 20-K.Coleman).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-4-CAR
+												24
+											</span>
+
+
+
+												<span class="pbp-dd-text">(3:40) 23-D.Booker right guard to CAR 22 for 2 yards (58-T.Davis).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												3-2-CAR
+												22
+											</span>
+
+
+
+												<span class="pbp-dd-text">(3:00) (Shotgun) 13-T.Siemian pass short right to 88-D.Thomas to CAR 16 for 6 yards (24-J.Bradberry).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-CAR
+												16
+											</span>
+
+
+
+												<span class="pbp-dd-text">(2:22) 22-C.Anderson left guard to CAR 16 for no gain (59-L.Kuechly).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-10-CAR
+												16
+											</span>
+
+
+
+												<span class="pbp-dd-text">(1:48) 13-T.Siemian sacked at CAR 25 for -9 yards (92-V.Butler).</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000703612" data-id="0ap3000000703612" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000703612_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li id="yui_3_10_3_7_1499789091011_451">
+											<span class="pbp-dd-info">
+												3-19-CAR
+												25
+											</span>
+
+
+
+												<span class="pbp-dd-text" id="yui_3_10_3_7_1499789091011_450">(1:09) (Shotgun) 13-T.Siemian pass short right intended for 10-E.Sanders INTERCEPTED by 58-T.Davis (98-S.Lotulelei) at CAR 32. 58-T.Davis to CAR 36 for 4 yards (13-T.Siemian).</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697210" data-id="0ap3000000697210" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697210_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+					<!--END of play content in the quarter-->
+
+
+
+
+
+					<li class="CARfont pbp-team">
+						Carolina Panthers at
+						01:03
+					</li>
+
+					<!--START of play content in the quarter-->
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												1-10-CAR
+												36
+											</span>
+
+
+
+												<span class="pbp-dd-text">(1:03) (Shotgun) 1-C.Newton pass incomplete short left to 13-K.Benjamin [93-J.Crick].</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												2-10-CAR
+												36
+											</span>
+
+
+
+												<span class="pbp-dd-text">(:55) 28-J.Stewart left guard to CAR 40 for 4 yards (95-D.Wolfe).</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+
+										<li>
+											<span class="pbp-dd-info">
+												3-6-CAR
+												40
+											</span>
+
+
+
+												<span class="pbp-dd-text">(:12) (Shotgun) 1-C.Newton pass short middle to 35-M.Tolbert to CAR 41 for 1 yard (26-D.Stewart).</span>
+
+											<span class="pbp-dd-text"><a href="#contentId=0ap3000000697217" data-id="0ap3000000697217" data-nocheck="true" class="gc-watch-highlight-link" onclick="s_objectID=&quot;http://www.nfl.com/gamecenter/2016090800/2016/REG1/panthers@broncos#contentId=0ap3000000697217_1&quot;;return this.s_oc?this.s_oc(e):true"><span>WATCH HIGHLIGHT</span></a></span>
+										</li>
+
+
+
+
+
+
+
+
+
+
+										<li>
+
+
+
+												<span class="pbp-dd-full-info">END QUARTER 1</span>
+
+
+										</li>
+
+
+
+
+
+
+
+
+
+
+					<!--END of play content in the quarter-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<!--End of Drive in the specfic quarter-->
+			<!--End of Div for Each Quarter-->
+			</ol>
