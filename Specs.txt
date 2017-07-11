@@ -1,0 +1,9 @@
+Objective: We want to collect play-by-play data for the last 10 years in football.
+    Additionally, we want to be able to pull the data immediately after games.
+
+Output:  Data will be stored in CSV documents by year
+    specialized columns will be needed
+
+Data Source:  nfl.com/gamecenter
+    This will be gathered from the Analyze/Play-by-Play tab
+
