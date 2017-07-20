@@ -13,6 +13,9 @@ soup = Soup(html, "lxml")
 ##print(soup.prettify())
 ##print(soup.find_all('a'))
 
+
+##
+
 ##print(soup.a['game-center-link'])
 
 ## <div class="highlight-link">
