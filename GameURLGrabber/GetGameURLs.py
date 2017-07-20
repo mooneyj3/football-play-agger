@@ -10,6 +10,10 @@ html = response.read()
 
 soup = Soup(html, "lxml")
 
+# Need to find all <a class="game-center-link" href="...">
+
+print(soup.find_all("a", class_="game-center-link"))
+
 ##print(soup.prettify())
 ##print(soup.find_all('a'))
 
@@ -25,7 +29,7 @@ soup = Soup(html, "lxml")
 
 ##print(soup.prettify())
 
-soup.findall("a", {"class" : "class=game-center-link"})
+##soup.findall("a", {"class" : "class=game-center-link"})
 
 
 ##print(soup.findall("a", { "class" : "class" : "game-center-link"}))
