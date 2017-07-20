@@ -1,9 +1,29 @@
+"""
+GetGameURLs.py
+
+Collects and aggregates NFL gamecenter URL's
+Gamecenter URL's have the following format:
+    http://www.nfl.com/scores/YYYY/SSNWK
+
+Where YYYY is the year, SSN is the season (PRE, REG, POST), and WK is the week
+
+    http://www.nfl.com/scores/2016/REG17
+
+"""
+
 # include bs4 library
 from bs4 import BeautifulSoup as Soup
 
 # include urllib library
 import urllib.request
 
+# class variables
+startYear = 2013
+endYear = 2017
+home = "http://www.nfl.com/scores/"
+
+"""
+# sample code
 response = urllib.request.urlopen('http://www.nfl.com/scores/2016/REG17')
 
 html = response.read()
@@ -11,29 +31,17 @@ html = response.read()
 soup = Soup(html, "lxml")
 
 # Need to find all <a class="game-center-link" href="...">
+for i in soup.find_all("a", class_="game-center-link", href=True):
+    print(i['href'])
+"""
 
-print(soup.find_all("a", class_="game-center-link"))
+for year in range(startYear, endYear):
 
-##print(soup.prettify())
-##print(soup.find_all('a'))
-
-
-##
-
-##print(soup.a['game-center-link'])
-
-## <div class="highlight-link">
-## <a href="/gamecenter/2017010100/2016/REG17/saints@falcons#menu=highlights|contentId:0ap3000000767814&amp;tab=analyze">
-
-## soup = Soup('http://www.nfl.com/scores/2016/REG17', 'html.parser')
-
-##print(soup.prettify())
-
-##soup.findall("a", {"class" : "class=game-center-link"})
-
-
-##print(soup.findall("a", { "class" : "class" : "game-center-link"}))
-
-# def myfunction():
-#     print("Hello World!");
-# myfunction();
+    # get PRESEASON URL's for current year
+    for ssn in range(1, 4):
+        url = home + str(year) + "/PRE" + str(ssn)
+        response = urllib.request.urlopen(url)
+        html = response.read()
+        soup = Soup(html, "lxml")
+        for i in soup.find_all("a", class_="game-center-link", href=True):
+            print(i['href'])
