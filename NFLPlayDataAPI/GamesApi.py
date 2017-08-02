@@ -29,6 +29,6 @@ def list_games(year, season_type):
 
 
 if __name__ == "__main__":
-    li = list_games("2016", "REG1")
+    li = list_games("2000", "REG1")
     for game in li:
         print(game)
