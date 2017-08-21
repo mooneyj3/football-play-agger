@@ -9,11 +9,6 @@ Gamecenter URL's have the following format:
 Where YYYY is the year, SSN is the season (PRE, REG, POST), and WK is the week
 
     http://www.nfl.com/scores/2016/REG17
-
-
-
-
-
 """
 
 # include bs4 library
@@ -30,31 +25,35 @@ def generateGameURLs(startYear, endYear):
     for year in range(startYear, endYear + 1):
 
         # get PRE season URL's for current year
+        """
         season = "PRE"
         print("Getting year: " + str(year) + "\t season: " + season + "...")
         for week in range(1, 4 + 1):
             url = home + str(year) + "/" + season + str(week)
-            storeURLsToFile(url, year, season)
+            storeURLsToFile(url, year, season, week)
         print("complete\n")
+        """
                 
         # get REG season URL's for current year
         season = "REG"
         print("Getting year: " + str(year) + "\t season: " + season)
         for week in range(1, 17 + 1):
             url = home + str(year) + "/" + season + str(week)
-            storeURLsToFile(url, year, season)
+            storeURLsToFile(url, year, season, week)
         print("complete\n")
         
         # get POST season URL's for current year
+        """
         season = "POST"
         print("Getting year: " + str(year) + "\t season: " + season + "...")
         for week in range(18, 22 + 1):
             url = home + str(year) + "/" + season + str(week)
-            storeURLsToFile(url, year, season)
+            storeURLsToFile(url, year, season, week)
         print("complete\n")
+        """
                 
-def storeURLsToFile(url, year, season):
-    filename = "./URLFiles/" + str(year) + "_" + season + "_gamecenterURLs.csv"
+def storeURLsToFile(url, year, season, week):
+    filename = "../IDFiles/" + str(year) + "_" + season + "_week_" + str(week) + ".csv"
     f = open(filename, 'a')
     response = urllib.request.urlopen(url)
     html = response.read()
@@ -64,4 +63,4 @@ def storeURLsToFile(url, year, season):
         f.write(i['href'] + "\n")
     f.close()
 
-generateGameURLs(2016, 2016)
+generateGameURLs(2009, 2016)
