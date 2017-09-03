@@ -1,0 +1,330 @@
+C:\Users\jonat\AppData\Local\Programs\Python\Python36-32\python.exe C:\Users\jonat\PycharmProjects\football-play-agger\DataCollection\GetPlayDataInJSON.py
+2009091000
+{'abbr': 'TEN',
+ 'players': None,
+ 'score': {'1': 0, '2': 7, '3': 0, '4': 3, '5': 0, 'T': 10},
+
+defense_ast
+defense_ffum
+defense_int
+defense_name
+defense_sk
+defense_tkl
+ 'stats': {'defense': {'00-0009056': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'J.Kearse',
+                                      'sk': 1,
+                                      'tkl': 1},
+                       '00-0019648': {'ast': 2,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'K.Bu	lluck',
+                                      'sk': 0,
+                                      'tkl': 3},
+                       '00-0019733': {'ast': 5,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'N.Harper',
+                                      'sk': 0,
+                                      'tkl': 4},
+                       '00-0020382': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'K.Vanden Bosch',
+                                      'sk': 0,
+                                      'tkl': 1},
+                       '00-0021219': {'ast': 4,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'C.Hope',
+                                      'sk': 0,
+                                      'tkl': 7},
+                       '00-0021230': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'D.Thornton',
+                                      'sk': 0,
+                                      'tkl': 2},
+                       '00-0021490': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'T.Brown',
+                                      'sk': 1,
+                                      'tkl': 1},
+                       '00-0023543': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 1,
+                                      'name': 'V.Fuller',
+                                      'sk': 0,
+                                      'tkl': 2},
+                       '00-0023622': {'ast': 2,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'J.Haye',
+                                      'sk': 0,
+                                      'tkl': 2},
+                       '00-0023648': {'ast': 2,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'K.Vickerson',
+                                      'sk': 0,
+                                      'tkl': 1},
+                       '00-0023812': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'C.Allred',
+                                      'sk': 0,
+                                      'tkl': 0},
+                       '00-0024331': {'ast': 4,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'S.Tulloch',
+                                      'sk': 0,
+                                      'tkl': 8},
+                       '00-0024429': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 1,
+                                      'name': 'C.Finnegan',
+                                      'sk': 0,
+                                      'tkl': 9},
+                       '00-0025406': {'ast': 2,
+                                      'ffum': 1,
+                                      'int': 0,
+                                      'name': 'M.Griffin',
+                                      'sk': 0,
+                                      'tkl': 4},
+                       '00-0025591': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'J.Ford',
+                                      'sk': 0.5,
+                                      'tkl': 2},
+                       '00-0026194': {'ast': 1,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'J.Jones',
+                                      'sk': 1,
+                                      'tkl': 2},
+                       '00-0026243': {'ast': 2,
+                                      'ffum': 0,
+                                      'int': 0,
+                                      'name': 'W.Hayes',
+                                      'sk': 0.5,
+                                      'tkl': 2}},
+           'fumbles': {'00-0023612': {'lost': 1,
+                                      'name': 'B.Scaife',
+                                      'rcv': 0,
+                                      'tot': 1,
+                                      'trcv': 0,
+                                      'yds': 0},
+                       '00-0024331': {'lost': 0,
+                                      'name': 'S.Tulloch',
+                                      'rcv': 0,
+                                      'tot': 0,
+                                      'trcv': 1,
+                                      'yds': 0},
+                       '00-0024429': {'lost': 0,
+                                      'name': 'C.Finnegan',
+                                      'rcv': 1,
+                                      'tot': 1,
+                                      'trcv': 1,
+                                      'yds': 0}},
+           'kicking': {'00-0020962': {'fga': 2,
+                                      'fgm': 1,
+                                      'fgyds': 45,
+                                      'name': 'R.Bironas',
+                                      'totpfg': 3,
+                                      'xpa': 1,
+                                      'xpb': 0,
+                                      'xpmade': 1,
+                                      'xpmissed': 0,
+                                      'xptot': 1}},
+           'kickret': {'00-0027120': {'avg': 19,
+                                      'lng': 21,
+                                      'name': 'J.Ringer',
+                                      'ret': 3,
+                                      'tds': 0}},
+           'passing': {'00-0003292': {'att': 35,
+                                      'cmp': 22,
+                                      'ints': 1,
+                                      'name': 'K.Collins',
+                                      'tds': 1,
+                                      'twopta': 0,
+                                      'twoptm': 0,
+                                      'yds': 244}},
+           'punting': {'00-0007308': {'avg': 42,
+                                      'i20': 2,
+                                      'lng': 56,
+                                      'name': 'C.Hentrich',
+                                      'pts': 5,
+                                      'yds': 223}},
+           'puntret': {'00-0024429': {'avg': 3,
+                                      'lng': 11,
+                                      'name': 'C.Finnegan',
+                                      'ret': 4,
+                                      'tds': 0}},
+           'receiving': {'00-0020285': {'lng': 3,
+                                        'name': 'A.Crumpler',
+                                        'rec': 2,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 5},
+                         '00-0021982': {'lng': 16,
+                                        'name': 'J.Gage',
+                                        'rec': 7,
+                                        'tds': 1,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 78},
+                         '00-0023367': {'lng': 8,
+                                        'name': 'N.Washington',
+                                        'rec': 1,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 8},
+                         '00-0023612': {'lng': 20,
+                                        'name': 'B.Scaife',
+                                        'rec': 5,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 48},
+                         '00-0024260': {'lng': 5,
+                                        'name': 'L.White',
+                                        'rec': 1,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 5},
+                         '00-0024489': {'lng': 4,
+                                        'name': 'A.Hall',
+                                        'rec': 1,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 4},
+                         '00-0026164': {'lng': 11,
+                                        'name': 'C.Johnson',
+                                        'rec': 1,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 11},
+                         '00-0027006': {'lng': 57,
+                                        'name': 'K.Britt',
+                                        'rec': 4,
+                                        'tds': 0,
+                                        'twopta': 0,
+                                        'twoptm': 0,
+                                        'yds': 85}},
+           'rushing': {'00-0003292': {'att': 2,
+                                      'lng': 1,
+                                      'name': 'K.Collins',
+                                      'tds': 0,
+                                      'twopta': 0,
+                                      'twoptm': 0,
+                                      'yds': 1},
+                       '00-0024260': {'att': 8,
+                                      'lng': 6,
+                                      'name': 'L.White',
+                                      'tds': 0,
+                                      'twopta': 0,
+                                      'twoptm': 0,
+                                      'yds': 28},
+                       '00-0026164': {'att': 15,
+                                      'lng': 32,
+                                      'name': 'C.Johnson',
+                                      'tds': 0,
+                                      'twopta': 0,
+                                      'twoptm': 0,
+                                      'yds': 57}},
+           'team': {'pen': 5,
+                    'penyds': 28,
+                    'pt': 5,
+                    'ptavg': 42,
+                    'ptyds': 223,
+                    'pyds': 234,
+                    'ryds': 86,
+                    'top': '28:21',
+                    'totfd': 18,
+                    'totyds': 320,
+                    'trnovr': 2}},
+ 'to': 2}
+
+Process finished with exit code 0
+
+
+{'00-0003292': 00-0003292: {2009091000, K.Collins, TEN, away}, '00-0026164': 00-0026164: {2009091000, C.Johnson, TEN, away}, '00-0024260': 00-0024260: {2009091000, L.White, TEN, away}, '00-0021982': 00-0021982: {2009091000, J.Gage, TEN, away}, '00-0023612': 00-0023612: {2009091000, B.Scaife, TEN, away}, '00-0027006': 00-0027006: {2009091000, K.Britt, TEN, away}, '00-0020285': 00-0020285: {2009091000, A.Crumpler, TEN, away}, '00-0023367': 00-0023367: {2009091000, N.Washington, TEN, away}, '00-0024489': 00-0024489: {2009091000, A.Hall, TEN, away}, '00-0024429': 00-0024429: {2009091000, C.Finnegan, TEN, away}, '00-0024331': 00-0024331: {2009091000, S.Tulloch, TEN, away}, '00-0020962': 00-0020962: {2009091000, R.Bironas, TEN, away}, '00-0007308': 00-0007308: {2009091000, C.Hentrich, TEN, away}, '00-0027120': 00-0027120: {2009091000, J.Ringer, TEN, away}, '00-0021219': 00-0021219: {2009091000, C.Hope, TEN, away}, '00-0019733': 00-0019733: {2009091000, N.Harper, TEN, away}, '00-0025406': 00-0025406: {2009091000, M.Griffin, TEN, away}, '00-0019648': 00-0019648: {2009091000, K.Bulluck, TEN, away}, '00-0026243': 00-0026243: {2009091000, W.Hayes, TEN, away}, '00-0023622': 00-0023622: {2009091000, J.Haye, TEN, away}, '00-0026194': 00-0026194: {2009091000, J.Jones, TEN, away}, '00-0025591': 00-0025591: {2009091000, J.Ford, TEN, away}, '00-0023543': 00-0023543: {2009091000, V.Fuller, TEN, away}, '00-0021230': 00-0021230: {2009091000, D.Thornton, TEN, away}, '00-0023648': 00-0023648: {2009091000, K.Vickerson, TEN, away}, '00-0021490': 00-0021490: {2009091000, T.Brown, TEN, away}, '00-0009056': 00-0009056: {2009091000, J.Kearse, TEN, away}, '00-0020382': 00-0020382: {2009091000, K.Vanden Bosch, TEN, away}, '00-0023812': 00-0023812: {2009091000, C.Allred, TEN, away}}
+
+
+defense_ast
+defense_ffum
+defense_int
+defense_name
+defense_sk
+defense_tkl
+
+fumbles_lost
+fumbles_name
+fumbles_rcv
+fumbles_tot
+fumbles_trcv
+fumbles_yds
+
+kicking_fga
+kicking_fgm
+kicking_fgyds
+kicking_name
+kicking_totpfg
+kicking_xpa
+kicking_xpb
+kicking_xpmade
+kicking_xpmissed
+kicking_xptot
+
+kickret_avg
+kickret_lng
+kickret_name
+kickret_ret
+kickret_tds
+
+passing_att
+passing_cmp
+passing_ints
+passing_name
+passing_tds
+passing_twopta
+passing_twoptm
+passing_yds
+
+punting_avg
+punting_i20
+punting_lng
+punting_name
+punting_pts
+punting_yds
+
+puntret_avg
+puntret_lng
+puntret_name
+puntret_ret
+puntret_tds
+
+receiving_lng
+receiving_name
+receiving_rec
+receiving_tds
+receiving_twopta
+receiving_twoptm
+receiving_yds
+
+rushing_att
+rushing_lng
+rushing_name
+rushing_tds
+rushing_twopta
+rushing_twoptm
+rushing_yds
