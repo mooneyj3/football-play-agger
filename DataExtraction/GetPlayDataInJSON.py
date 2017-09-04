@@ -37,25 +37,43 @@ def processJSON(game_id, URL):
 
         player_dict = {}
 
-        # process 'away' first
-        # get the "away" team name
-        away_team = data[game_id_str]['away']['abbr']
-        home_team = data[game_id_str]['home']['abbr']
+        # location: home or away
+        loc = 'away'
 
-        for playtype in data[game_id_str]['away']['stats']:
-            if playtype == 'team':
-                continue
-            for player_id in data[game_id_str]['away']['stats'][playtype]:
-                # check if player exists
-                if player_id not in player_dict:
-                    newplayer = DataExtraction.player_game_stats.PlayerGameStats(game_id,
-                                                                                 player_id,
-                                                                                 data[game_id_str]['away']['stats'][playtype][player_id]['name'],
-                                                                                 away_team,
-                                                                                 "away")
-                    player_dict[player_id] = newplayer
+        # loop through home/away items in JSON
+        i = 0
+        while i < 2:
+            # determine team name based on location
+            team_abbr = data[game_id_str][loc]['abbr']
 
-                # process current stats field for player
+            # playtypes will be one of:  defense, fumbles, kicking, kickret, passing, punting, puntret, receiving, rushing
+            for playtype in data[game_id_str][loc]['stats']:
+                # skip 'team' summary playtype
+                if playtype == 'team':
+                    continue
+                # loop through each player within a specified play type
+                for player_id in data[game_id_str][loc]['stats'][playtype]:
+                    # if player does not exist, create and add
+                    if player_id not in player_dict:
+                        newplayer = DataExtraction.player_game_stats.PlayerGameStats\
+                            (game_id, player_id, data[game_id_str][loc]['stats'][playtype][player_id]['name'],
+                             team_abbr, loc)
+                        player_dict[player_id] = newplayer
+
+                    # process current stats field for player
+                    # defense
+                    # fumbles
+                    # kicking
+                    # kickret
+                    # passing
+                    # punting
+                    # puntret
+                    # receiving
+                    # rushing
+            i += 1
+            loc = 'home'
+
+
 
         print(player_dict)
 
