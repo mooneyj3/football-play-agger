@@ -150,12 +150,3 @@ class PlayerGameStats:
         self.rushing_twopta = rushing_twopta
         self.rushing_twoptm = rushing_twoptm
         self.rushing_yds    = rushing_yds
-
-
-
-
-
-
-
-
-
