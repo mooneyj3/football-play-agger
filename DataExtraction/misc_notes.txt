@@ -5,7 +5,6 @@ for playtype, player_stats in stats.items():
         sheet[player_id].update({playtype + key: val for key, val in aggr_play.items()})
 
 
-C:\Users\jonat\AppData\Local\Programs\Python\Python36-32\python.exe C:\Users\jonat\PycharmProjects\football-play-agger\DataCollection\GetPlayDataInJSON.py
 2009091000
 {'abbr': 'TEN',
  'players': None,

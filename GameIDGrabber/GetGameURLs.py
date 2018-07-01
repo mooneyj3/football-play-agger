@@ -53,7 +53,7 @@ def generateGameURLs(startYear, endYear):
         """
                 
 def storeURLsToFile(url, year, season, week):
-    filename = "../IDFiles/" + str(year) + "_" + season + "_week_" + str(week) + ".csv"
+    filename = "D:\\NFL Data Project\\testing" + str(year) + "_" + season + "_week_" + str(week) + ".csv"
     f = open(filename, 'a')
     response = urllib.request.urlopen(url)
     html = response.read()
