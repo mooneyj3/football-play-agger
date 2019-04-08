@@ -72,8 +72,8 @@ def main():
         print("Not a valid directory!")
         sys.exit(0)
 
-    start_year = 2009
-    end_year = 2017
+    start_year = 2018
+    end_year = 2018
 
     pre_game_ids = get_game_ids(start_year, end_year, 'PRE')
     reg_game_ids = get_game_ids(start_year, end_year, 'REG')
